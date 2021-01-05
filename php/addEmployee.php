@@ -7,8 +7,8 @@
 
 	$executionStartTime = microtime(true);
 
-	include("config.php");
-	// include("config_dev.php");
+	//include("config.php");
+	include("config_dev.php");
 
 	header('Content-Type: application/json; charset=UTF-8');
 

@@ -11,8 +11,8 @@
 
 	$executionStartTime = microtime(true);
 
-	include("config.php");
-	// include("config_dev.php");
+	//include("config.php");
+	include("config_dev.php");
 
 	$conn = new mysqli($host_name, $user_name, $password, $database);
 

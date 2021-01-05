@@ -9,95 +9,44 @@ let selecteddepartmentId
 let selecteddepartment
 let selectedLocation
 let selectedLocationId
+let departmentID
+let employeeID
 
-  $.getJSON("php/getallemployees.php", (results) =>{
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+
+$.getJSON("php/getallemployees.php", (results) =>{
      $('#query').focus()
 
     let details = results.data  
     
     details.forEach(detail => {
+     
+     
       firstName = detail['firstName']
       lastName = detail['lastName']
       email = detail['email']
       department = detail['departmentname']
       place = detail['name']
-      id = detail['id']
+      employeeID = detail['id']
+      
       jobTitle = detail['jobTitle']
-      $('.employees').append(`<tr data-value=${id}><td>${firstName} ${lastName}</td><td>${department}</td><td>${jobTitle}</td><td>${place}</td><td><a href="mailto">${email}</a></td><td class="text-right"><button type="button" class="btn btn-primary badge-pill m-1 editEmployee">Edit</button><button type="button" class="btn btn-danger badge-pill" id="employeeToDelete">Delete</button></td></tr>`
+      departmentID = detail['departmentID']
+     
+      $('.employees').append(`<tr data-value=${employeeID}><td>${firstName} ${lastName}</td><td>${department}</td><td>${jobTitle}</td><td>${place}</td><td><a href="mailto">${email}</a></td><td class="text-right"><button type="button" class="btn btn-primary badge-pill m-1 editEmployee">Edit</button><button type="button" class="btn btn-danger badge-pill deleteemployee">Delete</button></td></tr>`
      )       
     });
-    $(document).ready(function (){
-      $('#employeeToDelete').on('click', function() {
-        $('#deleteemployee').modal('show');
-        $tr = $(this).closest('tr');
-        let employeeID = $tr.data('value')
-       
-     
-      
-        function capitalizeFirstLetter(string) {
-          return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-      
-        $.ajax({
-      
-          url: "php/getEmployeeById.php",
-          type: "POST",
-          dataType: "json",
-          data: {
-            employeeID: employeeID
-            
-          },
-          success: function (result) {
-            let employeedetails = result      
-      
-          console.log(employeedetails)
-      
-          let employeeFirstName = employeedetails['data'][0]['firstName']
-          let employeeLastName = employeedetails['data'][0]['lastName']
-          $('#employeetodelete').html(`<p>Are you sure you wish to permanently delete ${employeeFirstName} ${employeeLastName} from the company records?</p>`)
     
-    
-     $('#employeeDeleted').on('click', function()
-    {
-      console.log(employeeID)
-      
-      $.ajax({
-          
-        url: "php/deleteEmployee.php",
-        type: "POST",
-        dataType: "json",
-        data: {
-          employeeID: employeeID
-          
-        },
-        success: function () {
-         
-    
-           },
-        error: function (jqXHR, textStatus, errorThrown) {
-          console.log("Error");
-          
-        },
-      });
-    
-    })
-          
-             },
-          error: function (jqXHR, textStatus, errorThrown) {
-            console.log("Error");
-            
-          },
-        });
-    
-      });
-    
-    })
+
     $('.editEmployee').on('click', function() {
       $('#editmodal').modal('show');
+      $('#editdepartments').html('<option selected disabled value="">Select a department</option>');
       $tr = $(this).closest('tr');
-      let employeeID = $tr.data('value')
+        employeeID = $tr.data('value')
      
-  
+      
       $.getJSON("php/getAllDepartments.php", (result) => {
   
         let departments = result.data
@@ -108,14 +57,12 @@ let selectedLocationId
                 selectedDepartment = department['name']
                 selectedLocationId = department['locationID']        
                 $('#editdepartments').append(`<option value="${selecteddepartmentId}">${selectedDepartment}</option>`);
+                
         
         })
               
       })
       
-      function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-      }
   
       $.ajax({
   
@@ -135,14 +82,24 @@ let selectedLocationId
         let employeeLastName = employeedetails['data'][0]['lastName']
         let employeejobTitle = employeedetails['data'][0]['jobTitle']
         let employeeemail = employeedetails['data'][0]['email']
-        let employeedepartmentID = employeedetails['data'][0]['id']
+        let employeedepartmentID = employeedetails['data'][0]['departmentID']
+        
   
          $('#editFirstName').val(employeeFirstName)
          $('#editFirstName').attr('value', employeeID)
          $('#editLastName').val(employeeLastName)
          $('#editJobTitle').val(employeejobTitle)
          $('#editEmail').val(employeeemail)
-         $('#editdepartments').val(employeedepartmentID)
+         $('#editdepartments').val(employeedepartmentID).change() 
+         $('#editemployeeform').on('submit', function()
+{
+  
+
+
+})
+
+
+    
    
            },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -152,8 +109,54 @@ let selectedLocationId
       });
 
     });
+    $('.deleteemployee').on('click', function() {
+      $('#deletemodal').modal('show');
+      $tr = $(this).closest('tr');
+      let employeeID = $tr.data('value')
+     
+      
+    
+      $.ajax({
+    
+        url: "php/getEmployeeById.php",
+        type: "POST",
+        dataType: "json",
+        data: {
+          employeeID: employeeID
+          
+        },
+        success: function (result) {
+          let employeedetails = result      
+    
+        console.log(employeedetails)
+    
+        let employeeFirstName = employeedetails['data'][0]['firstName']
+        let employeeLastName = employeedetails['data'][0]['lastName']
+        $('#employeetodelete').html(`<p>Are you sure you wish to permanently delete ${employeeFirstName} ${employeeLastName} from the company records?</p>`)
+  
+  
 
-  })
+        
+           },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error");
+          
+        },
+      });
+  
+    });
+
+ 
+
+
+
+
+
+
+
+
+
+})
 
 $('.queryform').keyup( function (e) {
   $('.employees').html('')
@@ -180,7 +183,7 @@ $('.queryform').keyup( function (e) {
           jobTitle = detail['jobTitle']
           department = detail['departmentname']
           place = detail['name']
-          $('.employees').append(`<tr data-value=${id}><td>${firstName} ${lastName}</td><td>${department}</td><td>${jobTitle}</td><td>${place}</td><td><a href="mailto">${email}</a></td><td class="text-right"><button type="button" class="btn btn-primary badge-pill m-1 editEmployee">Edit</button><button type="button" class="btn btn-danger badge-pill" id="employeeToDelete">Delete</button></td></tr>`
+          $('.employees').append(`<tr data-value=${id}><td>${firstName} ${lastName}</td><td>${department}</td><td>${jobTitle}</td><td>${place}</td><td><a href="mailto">${email}</a></td><td class="text-right"><button type="button" class="btn btn-primary badge-pill m-1 editEmployee">Edit</button><button type="button" class="btn btn-danger badge-pill deleteemployee" >Delete</button></td></tr>`
          )    
      
         });
@@ -192,8 +195,10 @@ $('.queryform').keyup( function (e) {
       }
       $('.editEmployee').on('click', function() {
         $('#editmodal').modal('show');
+        $('#editdepartments').html('<option selected disabled value="">Select a department</option>');
         $tr = $(this).closest('tr');
-        let employeeID = $tr.data('value')
+        employeeID = $tr.data('value')
+       
        
     
         $.getJSON("php/getAllDepartments.php", (result) => {
@@ -204,16 +209,15 @@ $('.queryform').keyup( function (e) {
            
                   selecteddepartmentId = department['id']        
                   selectedDepartment = department['name']
-                  selectedLocationId = department['locationID']        
+                  selectedLocationId = department['locationID']
+                          
                   $('#editdepartments').append(`<option value="${selecteddepartmentId}">${selectedDepartment}</option>`);
           
           })
                 
         })
         
-        function capitalizeFirstLetter(string) {
-          return string.charAt(0).toUpperCase() + string.slice(1);
-        }
+     
     
         $.ajax({
     
@@ -224,6 +228,7 @@ $('.queryform').keyup( function (e) {
             employeeID: employeeID
             
           },
+
           success: function (result) {
             let employeedetails = result      
     
@@ -233,14 +238,14 @@ $('.queryform').keyup( function (e) {
           let employeeLastName = employeedetails['data'][0]['lastName']
           let employeejobTitle = employeedetails['data'][0]['jobTitle']
           let employeeemail = employeedetails['data'][0]['email']
-          let employeedepartmentID = employeedetails['data'][0]['id']
+          let employeedepartmentID = employeedetails['data'][0]['departmentID']
     
            $('#editFirstName').val(employeeFirstName)
            $('#editFirstName').attr('value', employeeID)
            $('#editLastName').val(employeeLastName)
            $('#editJobTitle').val(employeejobTitle)
            $('#editEmail').val(employeeemail)
-           $('#editdepartments').val(employeedepartmentID)
+           $('#editdepartments').val(employeedepartmentID).change() 
      
              },
           error: function (jqXHR, textStatus, errorThrown) {
@@ -250,6 +255,45 @@ $('.queryform').keyup( function (e) {
         });
 
       });
+
+      $('.deleteemployee').on('click', function() {
+        $('#deletemodal').modal('show');
+        $tr = $(this).closest('tr');
+        let employeeID = $tr.data('value')
+       
+        
+      
+        $.ajax({
+      
+          url: "php/getEmployeeById.php",
+          type: "POST",
+          dataType: "json",
+          data: {
+            employeeID: employeeID
+            
+          },
+          success: function (result) {
+            let employeedetails = result      
+      
+          console.log(employeedetails)
+      
+          let employeeFirstName = employeedetails['data'][0]['firstName']
+          let employeeLastName = employeedetails['data'][0]['lastName']
+          $('#employeetodelete').html(`<p>Are you sure you wish to permanently delete ${employeeFirstName} ${employeeLastName} from the company records?</p>`)
+    
+    
+  
+          
+             },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Error");
+            
+          },
+        });
+    
+      });
+
+      
       
        },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -257,74 +301,8 @@ $('.queryform').keyup( function (e) {
     },
   });
 
-  $(document).ready(function (){
-    $('#employeeToDelete').on('click', function() {
-      $('#deleteemployee').modal('show');
-      $tr = $(this).closest('tr');
-      let employeeID = $tr.data('value')
-     
-   
-    
-      function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-      }
-    
-      $.ajax({
-    
-        url: "php/getEmployeeById.php",
-        type: "POST",
-        dataType: "json",
-        data: {
-          employeeID: employeeID
-          
-        },
-        success: function (result) {
-          let employeedetails = result      
-    
-        console.log(employeedetails)
-    
-        let employeeFirstName = employeedetails['data'][0]['firstName']
-        let employeeLastName = employeedetails['data'][0]['lastName']
-        $('#employeetodelete').html(`<p>Are you sure you wish to permanently delete ${employeeFirstName} ${employeeLastName} from the company records?</p>`)
   
-  
-   $('#employeeDeleted').on('click', function()
-  {
-    console.log(employeeID)
-    
-    $.ajax({
-        
-      url: "php/deleteEmployee.php",
-      type: "POST",
-      dataType: "json",
-      data: {
-        employeeID: employeeID
-        
-      },
-      success: function () {
-       
-  
-         },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.log("Error");
-        
-      },
-    });
-  
-  })
-        
-           },
-        error: function (jqXHR, textStatus, errorThrown) {
-          console.log("Error");
-          
-        },
-      });
-  
-    });
-  
-  })
-e.preventDefault();
-})
+});
 
 $.getJSON("php/getAllDepartments.php", (result) => {
 
@@ -341,99 +319,32 @@ $.getJSON("php/getAllDepartments.php", (result) => {
  
 })
 
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 $('#addemployeeform').on('submit', function(){
+ 
   $.ajax({
 
-    url: "php/addEmployee.php",
-    type: "POST",
-    dataType: "json",
-    data: {
-      firstName: capitalizeFirstLetter($('#InputFirstName').val()),
-      lastName: capitalizeFirstLetter($('#InputLastName').val()),
-      jobTitle: capitalizeFirstLetter($('#InputJobTitle').val()),
-      email: $('#InputEmail').val(),
-      departmentID: $("#departments").val()
-    },
-    success: function () {
-      alert(`${capitalizeFirstLetter($('#InputFirstName').val())} ${capitalizeFirstLetter($('#InputLastName').val())} added to records`)   
+url: "php/addEmployee.php",
+type: "POST",
+dataType: "json",
+data: {
+  firstName: capitalizeFirstLetter($('#InputFirstName').val()),
+  lastName: capitalizeFirstLetter($('#InputLastName').val()),
+  jobTitle: capitalizeFirstLetter($('#InputJobTitle').val()),
+  email: $('#InputEmail').val(),
+  departmentID: $("#departments").val()
+},
+success: function () {
+  alert(`${capitalizeFirstLetter($('#InputFirstName').val())} ${capitalizeFirstLetter($('#InputLastName').val())} added to records`)   
 
-       },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.log("Error");
-      
-    },
-  });
-
-})
-
-$(document).ready(function (){
-  $('.editEmployee').on('click', function() {
-    $('#editmodal').modal('show');
-    $tr = $(this).closest('tr');
-    let employeeID = $tr.data('value')
-   
-
-    $.getJSON("php/getAllDepartments.php", (result) => {
-
-      let departments = result.data
-    
-      departments.forEach(department=>{
-       
-              selecteddepartmentId = department['id']         
-              selectedDepartment = department['name']
-              selectedLocationId = department['locationID']
-              $('#editdepartments').append(`<option value="${selecteddepartmentId}">${selectedDepartment}</option>`);
-        
-      })
-    
-    })
-    
-    function capitalizeFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
-    $.ajax({
-
-      url: "php/getEmployeeById.php",
-      type: "POST",
-      dataType: "json",
-      data: {
-        employeeID: employeeID
-        
-      },
-      success: function (result) {
-        let employeedetails = result     
-
-      console.log(employeedetails)
-
-      let employeeFirstName = employeedetails['data'][0]['firstName']
-      let employeeLastName = employeedetails['data'][0]['lastName']
-      let employeejobTitle = employeedetails['data'][0]['jobTitle']
-      let employeeemail = employeedetails['data'][0]['email']
-      let employeedepartmentID = employeedetails['data'][0]['id']
-
-       $('#editFirstName').val(employeeFirstName)
-       $('#editFirstName').attr('value', employeeID)
-       $('#editLastName').val(employeeLastName)
-       $('#editJobTitle').val(employeejobTitle)
-       $('#editEmail').val(employeeemail)
-       $('#editdepartments').val(employeedepartmentID)
+   },
+error: function (jqXHR, textStatus, errorThrown) {
+  console.log("Error");
   
-         },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.log("Error");
-        
-      },
-    });
-
-  });
+},
+});
 
 })
-
 $('#editemployeeform').on('submit', function()
 {
   
@@ -462,7 +373,34 @@ $('#editemployeeform').on('submit', function()
 
 })
 
+$('#deleteemployeeform').on('submit', function()
+{
+  console.log(employeeID)
+  
+  $.ajax({
+      
+    url: "php/deleteEmployee.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+      employeeID: employeeID
+      
+    },
+    success: function () {
 
+      alert(`${employeeFirstName} ${employeeLastName} deleted from records`)  
+
+
+     
+
+       },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.log("Error");
+      
+    },
+  });
+
+})
 
 
 
@@ -475,4 +413,3 @@ $(window).on("load", function () {
       });
   }
 });
-

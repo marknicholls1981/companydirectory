@@ -41,8 +41,8 @@
           <li class="nav-item">
              
             
-            <button class="btn btn-secondary mr-3">Add Location</button>
-            <button class="btn btn-secondary mr-3">Add Department</button>
+            <!-- <button class="btn btn-secondary mr-3">Add Location</button>
+            <button class="btn btn-secondary mr-3">Add Department</button> -->
             
 <button type="button" class="btn btn-secondary mr-3" data-toggle="modal" data-target="#addemployee">
  Add Employee
@@ -179,7 +179,7 @@
               <div class="mb-3">
                 
                 <select id="editdepartments" class="form-select form-select-lg mb-3" name="editdepartment" required>
-                  <option selected disabled value="">Select a department</option>
+                  
                  
                 </select>
                
@@ -201,7 +201,7 @@
 
 
 <!-- Delete Employee Modal -->
-<div class="modal" tabindex="-1" id="deleteemployee">
+<div class="modal" tabindex="-1" id="deletemodal">
   <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
@@ -210,13 +210,15 @@
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        
+        <form method="POST" id ="deleteemployeeform">
         <div class="modal-body" id="employeetodelete">        
         </div>
+      
         <div class="modal-footer">
             <button id="employeeDeleted" type="submit" name="deletedEmployee" class="btn btn-danger">Delete Employee</button>
             <button type="button" data-dismiss="modal" class="btn btn-primary">Discard Changes</button>
         </div>
+      </form>
      
     </div>
 </div>

@@ -7,10 +7,11 @@
 
 	$executionStartTime = microtime(true);
 
-	include("config.php");
-	// include("config_dev.php");
+	//include("config.php");
+	include("config_dev.php");
 
 	header('Content-Type: application/json; charset=UTF-8');
+	mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 	$conn = new mysqli($host_name, $user_name, $password, $database);
 
@@ -37,7 +38,7 @@
 	inner join location l
 	on l.id = d.locationID
 	on d.id = p.departmentID
-    where firstName like "%' .$searchquery. '%" || d.name like "%' .$searchquery . '%"  || l.name like "%' .$searchquery . '%" || lastName like "%' .$searchquery . '%" || firstname + " " + lastname like "%' .$searchquery . '%"');
+    where firstName like "%' . $searchquery .'%" || d.name like "%' .$searchquery . '%"  || l.name like "%' .$searchquery . '%" || lastName like "%' .$searchquery . '%" || firstname + " " + lastname like "%' .$searchquery . '%"');
 	$stmt->execute();
 
 	$result = $stmt->get_result();

@@ -7,8 +7,8 @@
 
 	$executionStartTime = microtime(true);
 
-	include("config.php");
-	// include("config_dev.php");
+	// include("config.php");
+	include("config_dev.php");
 
 	header('Content-Type: application/json; charset=UTF-8');
 
@@ -33,11 +33,12 @@
 	
     $employeeID = $_REQUEST['employeeID'];
 
-	$stmt = $conn->prepare('select p.firstName, p.lastName, p.email,d.name as departmentname, l.name, p.jobTitle, d.id,p.id from personnel p 
+	$stmt = $conn->prepare('select p.firstName, p.lastName, p.email,d.name as departmentname, l.name, p.jobTitle, d.id as departmentID,p.id from personnel p 
 	inner join department d
+	on d.id = p.departmentID
 	inner join location l
 	on l.id = d.locationID
-	on d.id = p.departmentID
+	
     where p.id = ' .  $_REQUEST['employeeID']);
     $stmt->execute();
     

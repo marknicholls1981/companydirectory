@@ -7,8 +7,8 @@
 
 	$executionStartTime = microtime(true);
 
-	include("config.php");
-	// include("config_dev.php");
+	//include("config.php");
+	include("config_dev.php");
 
 	header('Content-Type: application/json; charset=UTF-8');
 
@@ -35,7 +35,7 @@
 
     
 	$query = "delete from personnel 
-	where id = '$employeeID' ";
+	where id = $employeeID ";
     
    
 	$result = $conn->query($query);

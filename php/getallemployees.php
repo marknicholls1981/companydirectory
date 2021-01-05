@@ -7,10 +7,11 @@
 
 	$executionStartTime = microtime(true);
 
-	include("config.php");
-	// include("config_dev.php");
+	//include("config.php");
+	include("config_dev.php");
 
 	header('Content-Type: application/json; charset=UTF-8');
+	mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 	$conn = new mysqli($host_name, $user_name, $password, $database);
 
@@ -32,11 +33,11 @@
 
 	
 
-	$stmt = $conn->prepare('select p.firstName, p.lastName, p.email,d.name as departmentname, l.name, p.id, p.jobTitle from personnel p 
+	$stmt = $conn->prepare('select p.firstName, p.lastName, p.email,d.name as departmentname, l.name, p.id, p.jobTitle, d.id as departmentID from personnel p 
 	inner join department d
-	inner join location l
+    on d.id = p.departmentID
+    inner join location l
 	on l.id = d.locationID
-	on d.id = p.departmentID
 	order by p.lastName');
 	$stmt->execute();
 
