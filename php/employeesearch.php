@@ -35,9 +35,9 @@
 
 	$stmt = $conn->prepare('select p.firstName, p.lastName, p.email,d.name as departmentname, l.name, p.id, p.jobTitle from personnel p 
 	inner join department d
+	on d.id = p.departmentID
 	inner join location l
 	on l.id = d.locationID
-	on d.id = p.departmentID
     where firstName like "%' . $searchquery .'%" || d.name like "%' .$searchquery . '%"  || l.name like "%' .$searchquery . '%" || lastName like "%' .$searchquery . '%" || firstname + " " + lastname like "%' .$searchquery . '%"');
 	$stmt->execute();
 
