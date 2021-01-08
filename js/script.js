@@ -76,7 +76,7 @@ $.getJSON("php/getallemployees.php", (results) =>{
         success: function (result) {
           let employeedetails = result      
   
-        console.log(employeedetails)
+  
   
         let employeeFirstName = employeedetails['data'][0]['firstName']
         let employeeLastName = employeedetails['data'][0]['lastName']
@@ -127,12 +127,11 @@ $.getJSON("php/getallemployees.php", (results) =>{
         },
         success: function (result) {
           let employeedetails = result      
-    
-        console.log(employeedetails)
+ 
     
         let employeeFirstName = employeedetails['data'][0]['firstName']
         let employeeLastName = employeedetails['data'][0]['lastName']
-        $('#employeetodelete').html(`<p>Are you sure you wish to permanently delete ${employeeFirstName} ${employeeLastName} from the company records?</p>`)
+        $('#employeetodelete').html(`<p class="employeetodelete" id=${employeeID}>Are you sure you wish to permanently delete ${employeeFirstName} ${employeeLastName} from the company records?</p>`)
   
   
 
@@ -148,14 +147,6 @@ $.getJSON("php/getallemployees.php", (results) =>{
 
  
 
-
-
-
-
-
-
-
-
 })
 
 $('.queryform').keyup( function (e) {
@@ -169,7 +160,7 @@ $('.queryform').keyup( function (e) {
       searchquery: $('#query').val()
     },
     success: function (results) {
-      console.log(results)
+      
       $('#query').focus()
       
       let details = results.data
@@ -232,7 +223,7 @@ $('.queryform').keyup( function (e) {
           success: function (result) {
             let employeedetails = result      
     
-          console.log(employeedetails)
+          
     
           let employeeFirstName = employeedetails['data'][0]['firstName']
           let employeeLastName = employeedetails['data'][0]['lastName']
@@ -259,8 +250,7 @@ $('.queryform').keyup( function (e) {
       $('.deleteemployee').on('click', function() {
         $('#deletemodal').modal('show');
         $tr = $(this).closest('tr');
-        let employeeID = $tr.data('value')
-       
+      
         
       
         $.ajax({
@@ -269,17 +259,18 @@ $('.queryform').keyup( function (e) {
           type: "POST",
           dataType: "json",
           data: {
-            employeeID: employeeID
+            employeeID: $tr.data('value')
+       
             
           },
           success: function (result) {
             let employeedetails = result      
       
-          console.log(employeedetails)
+      
       
           let employeeFirstName = employeedetails['data'][0]['firstName']
           let employeeLastName = employeedetails['data'][0]['lastName']
-          $('#employeetodelete').html(`<p>Are you sure you wish to permanently delete ${employeeFirstName} ${employeeLastName} from the company records?</p>`)
+          $('#employeetodelete').html(`<p class="employeetodelete" id=${employeeID}>Are you sure you wish to permanently delete ${employeeFirstName} ${employeeLastName} from the company records?</p>`)
     
     
   
@@ -373,17 +364,17 @@ $('#editemployeeform').on('submit', function()
 
 })
 
+
 $('#deleteemployeeform').on('submit', function()
 {
-  console.log(employeeID)
   
   $.ajax({
       
-    url: "php/deleteEmployee.php",
+    url: "php/deleteemployee.php",
     type: "POST",
     dataType: "json",
     data: {
-      employeeID: employeeID
+      employeeID: $('.employeetodelete').attr('id')
       
     },
     success: function () {

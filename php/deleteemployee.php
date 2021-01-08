@@ -34,11 +34,27 @@
 
 
     
-	$query = "delete from personnel 
+	$query = "delete from personnel
 	where id = $employeeID ";
+	echo $query;
     
    
 	$result = $conn->query($query);
+
+	if (!$result) {
+
+		$output['status']['code'] = "400";
+		$output['status']['name'] = "executed";
+		$output['status']['description'] = "query failed";	
+		$output['data'] = [];
+
+		mysqli_close($conn);
+
+		echo json_encode($output); 
+
+		exit;
+
+	}
 
 
 ?>

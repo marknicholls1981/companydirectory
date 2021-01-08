@@ -41,10 +41,29 @@
 
 	$query = "update personnel p
 	set firstName = '$firstName', lastName = '$lastName', jobTitle = '$jobTitle', email = '$email', departmentID = '$departmentID'
-	where p.id = $employeeID ";
+	where p.id = '$employeeID' ";
+
+	echo $query;
+
+
     
    
 	$result = $conn->query($query);
+
+	if (!$result) {
+
+		$output['status']['code'] = "400";
+		$output['status']['name'] = "executed";
+		$output['status']['description'] = "query failed";	
+		$output['data'] = [];
+
+		mysqli_close($conn);
+
+		echo json_encode($output); 
+
+		exit;
+
+	}
 
 
 ?>

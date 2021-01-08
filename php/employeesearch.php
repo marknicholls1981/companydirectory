@@ -38,7 +38,8 @@
 	on d.id = p.departmentID
 	inner join location l
 	on l.id = d.locationID
-    where firstName like "%' . $searchquery .'%" || d.name like "%' .$searchquery . '%"  || l.name like "%' .$searchquery . '%" || lastName like "%' .$searchquery . '%" || firstname + " " + lastname like "%' .$searchquery . '%"');
+	where firstName like "%' . $searchquery .'%" || d.name like "%' .$searchquery . '%"  || l.name like "%' .$searchquery . '%" || lastName like "%' .$searchquery . '%" || firstname + " " + lastname like "%' .$searchquery . '%"
+	order by p.lastName');
 	$stmt->execute();
 
 	$result = $stmt->get_result();
