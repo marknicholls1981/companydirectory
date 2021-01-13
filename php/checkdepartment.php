@@ -11,7 +11,6 @@
 	include("config_dev.php");
 
 	header('Content-Type: application/json; charset=UTF-8');
-	mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 	$conn = new mysqli($host_name, $user_name, $password, $database);
 
@@ -31,18 +30,12 @@
 
 	}	
 
-	$searchquery = $_REQUEST['searchquery'];
+    $departmentID = $_REQUEST['departmentID'];
+    
 
-	$stmt = $conn->prepare('select distinct p.firstName, p.lastName, p.email,d.name as departmentname, l.name, p.id, p.jobTitle from personnel p 
-	inner join department d
-	on d.id = p.departmentID
-	inner join location l
-	on l.id = d.locationID
-	where firstName like "%' . $searchquery .'%" || d.name like "%' .$searchquery . '%"  || l.name like "%' .$searchquery . '%" || lastName like "%' .$searchquery . '%" || firstname + " " + lastname like "%' .$searchquery . '%"
-	order by p.lastName');
-	$stmt->execute();
+	$query = "SELECT COUNT(*) AS total_in_use FROM personnel WHERE departmentID = '$departmentID'";
 
-	$result = $stmt->get_result();
+	$result = $conn->query($query);
 	
 	if (!$result) {
 
@@ -50,7 +43,6 @@
 		$output['status']['name'] = "executed";
 		$output['status']['description'] = "query failed";	
 		$output['data'] = [];
-		
 
 		mysqli_close($conn);
 
@@ -77,5 +69,11 @@
 	mysqli_close($conn);
 
 	echo json_encode($output); 
+
+    
+       
+	
+
+
 
 ?>

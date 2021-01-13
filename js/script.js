@@ -142,6 +142,38 @@ $.getJSON("php/getallemployees.php", (results) =>{
           
         },
       });
+
+      
+$('#deleteemployeeform').on('submit', function()
+{console.log($('.employeetodelete').attr('id'))
+
+  
+  $.ajax({
+
+    
+      
+    url: "php/deleteemployee.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+      employeeID: $('.employeetodelete').attr('id')
+      
+    },
+    success: function () {
+
+      alert(`${employeeFirstName} ${employeeLastName} deleted from records`)  
+
+
+     
+
+       },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.log("Error");
+      
+    },
+  });
+
+})
   
     });
 
@@ -271,7 +303,36 @@ $('.queryform').keyup( function (e) {
           let employeeFirstName = employeedetails['data'][0]['firstName']
           let employeeLastName = employeedetails['data'][0]['lastName']
           $('#employeetodelete').html(`<p class="employeetodelete" id=${employeeID}>Are you sure you wish to permanently delete ${employeeFirstName} ${employeeLastName} from the company records?</p>`)
-    
+          $('#deleteemployeeform').on('submit', function()
+          {console.log($('.employeetodelete').attr('id'))
+          
+            
+            $.ajax({
+          
+              
+                
+              url: "php/deleteemployee.php",
+              type: "POST",
+              dataType: "json",
+              data: {
+                employeeID: $tr.data('value')
+                
+              },
+              success: function () {
+          
+                alert(`${employeeFirstName} ${employeeLastName} deleted from records`)  
+          
+          
+               
+          
+                 },
+              error: function (jqXHR, textStatus, errorThrown) {
+                console.log("Error");
+                
+              },
+            });
+          
+          })
     
   
           
@@ -281,6 +342,10 @@ $('.queryform').keyup( function (e) {
             
           },
         });
+
+
+        
+
     
       });
 
@@ -305,6 +370,24 @@ $.getJSON("php/getAllDepartments.php", (result) => {
           selectedDepartment = department['name']
           selectedLocationId = department['locationID']
           $departmentSelect.append(`<option value="${selecteddepartmentId}">${selectedDepartment}</option>`);
+          $('#departmenttodelete').append(`<option value="${selecteddepartmentId}">${selectedDepartment}</option>`);
+
+  })
+ 
+})
+
+$.getJSON("php/getAllLocations.php", (result) => {
+
+  let locations = result.data
+
+  
+  locations.forEach(location=>{
+   
+          locationID = location['id']
+          locationName = location['name']
+          
+          $("#location").append(`<option value="${locationID}">${locationName}</option>`);
+          $("#locationtodelete").append(`<option value="${locationID}">${locationName}</option>`);
 
   })
  
@@ -336,6 +419,59 @@ error: function (jqXHR, textStatus, errorThrown) {
 });
 
 })
+
+$('#addlocationform').on('submit', function(){
+ 
+  $.ajax({
+
+url: "php/addlocation.php",
+type: "POST",
+dataType: "json",
+data: {
+  
+  locationName: capitalizeFirstLetter($('#InputLocationName').val()),
+ 
+},
+success: function () {
+   
+
+   },
+error: function (jqXHR, textStatus, errorThrown) {
+  console.log("Error");
+  
+},
+});
+
+})
+
+
+$('#adddepartmentform').on('submit', function(){
+ 
+  $.ajax({
+
+url: "php/adddepartment.php",
+type: "POST",
+dataType: "json",
+data: {
+  
+  departmentName: capitalizeFirstLetter($('#InputDepartmentName').val()),
+  locationID: $("#location").val()
+ 
+},
+success: function () {
+   
+
+   },
+error: function (jqXHR, textStatus, errorThrown) {
+  console.log("Error");
+  
+},
+});
+
+})
+
+
+
 $('#editemployeeform').on('submit', function()
 {
   
@@ -364,34 +500,117 @@ $('#editemployeeform').on('submit', function()
 
 })
 
-
-$('#deleteemployeeform').on('submit', function()
-{
+$('#removedepartmentform').on('submit', function(){
   
+ 
   $.ajax({
+
+url: "php/checkdepartment.php",
+type: "POST",
+dataType: "json",
+data: {
+  
+  departmentID: $("#departmenttodelete").val()
+  
+ 
+},
+success: function (result) { 
+  employeesindepartment = result.data[0]['total_in_use']
+  if(employeesindepartment > 0){
+
+    alert(`${employeesindepartment} staff are in this department, therefore it cannot be removed.`)
+  }
+  else{
+
+    $.ajax({
+
+      url: "php/deletedepartment.php",
+      type: "POST",
+      dataType: "json",
+      data: {
+        departmentID: $("#departmenttodelete").val()
+      },
+      success: function () {
+       
       
-    url: "php/deleteemployee.php",
-    type: "POST",
-    dataType: "json",
-    data: {
-      employeeID: $('.employeetodelete').attr('id')
-      
-    },
-    success: function () {
-
-      alert(`${employeeFirstName} ${employeeLastName} deleted from records`)  
+         },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error");
+        
+      },
+      });
 
 
-     
+  }
+   
 
-       },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.log("Error");
-      
-    },
-  });
+   },
+error: function (jqXHR, textStatus, errorThrown) {
+  console.log("Error");
+  
+},
+});
 
 })
+
+
+$('#removelocationform').on('submit', function(){
+  
+ 
+  $.ajax({
+
+url: "php/checklocation.php",
+type: "POST",
+dataType: "json",
+data: {
+  
+  locationID: $("#locationtodelete").val()
+  
+ 
+},
+success: function (result) { 
+
+
+  departmentsinlocation = result.data[0]['total_in_use']
+  if( departmentsinlocation > 0){
+
+    alert(`${departmentsinlocation} departments are at this location, therefore it cannot be removed.`)
+  }
+  else{
+
+    $.ajax({
+
+      url: "php/deletelocation.php",
+      type: "POST",
+      dataType: "json",
+      data: {
+        locationID: $("#locationtodelete").val()
+      },
+      success: function () {
+       
+      
+         },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error");
+        
+      },
+      });
+
+
+  }
+   
+
+   },
+error: function (jqXHR, textStatus, errorThrown) {
+  console.log("Error");
+  
+},
+});
+
+})
+
+
+
 
 
 
