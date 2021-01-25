@@ -30,11 +30,11 @@
 
 	}	
 
-    $locationName = $_REQUEST['locationName'];
+    $locationname = $_REQUEST['locationname'];
 
     	$query = "
     insert into location (name)
-    values ('$locationName')";
+    values ('$locationname')";
 
     
 

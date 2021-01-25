@@ -1,18 +1,15 @@
 <?php
 
-
-	// example use from browser
-	// http://localhost/companydirectory/libs/php/getDepartmentByID.php?id=2
 	
-	// remove next two lines for production
-
+	
 	ini_set('display_errors', 'On');
 	error_reporting(E_ALL);
 
 	$executionStartTime = microtime(true);
 
-	//include("config.php");
 	include("config_dev.php");
+
+	header('Content-Type: application/json; charset=UTF-8');
 
 	$conn = new mysqli($host_name, $user_name, $password, $database);
 
@@ -23,20 +20,25 @@
 		$output['status']['description'] = "database unavailable";
 		$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
 		$output['data'] = [];
-		
+
 		mysqli_close($conn);
 
-		echo json_encode($output); 
+		echo json_encode($output);
 
 		exit;
 
 	}	
 
-	// $_REQUEST used for development / debugging. Remember to cange to $_POST for production
+	
 
-	$query = 'SELECT id, name, locationID FROM department WHERE id = ' . $_REQUEST['id'];
+	$stmt = $conn->prepare('select d.name as departmentname, l.name as locationname, l.id as locationid from department d
+	inner join location l
+	on l.id = d.locationID
+	where d.id =' .  $_REQUEST['departmentid']);
+    $stmt->execute();
+    
 
-	$result = $conn->query($query);
+	$result = $stmt->get_result();
 	
 	if (!$result) {
 
@@ -44,6 +46,7 @@
 		$output['status']['name'] = "executed";
 		$output['status']['description'] = "query failed";	
 		$output['data'] = [];
+		
 
 		mysqli_close($conn);
 
@@ -66,8 +69,6 @@
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
 	$output['data'] = $data;
-
-	header('Content-Type: application/json; charset=UTF-8');
 	
 	mysqli_close($conn);
 

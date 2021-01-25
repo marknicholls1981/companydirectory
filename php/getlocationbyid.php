@@ -1,13 +1,12 @@
 <?php
 
-	// remove next two lines for production
+	
 	
 	ini_set('display_errors', 'On');
 	error_reporting(E_ALL);
 
 	$executionStartTime = microtime(true);
 
-	// include("config.php");
 	include("config_dev.php");
 
 	header('Content-Type: application/json; charset=UTF-8');
@@ -30,16 +29,11 @@
 
 	}	
 
-	
-    $employmentid = $_REQUEST['employmentid'];
 
-	$stmt = $conn->prepare('select p.firstName, p.lastName, p.email,d.name as departmentname, l.name, p.jobTitle, d.id as departmentID,p.id from personnel p 
-	inner join department d
-	on d.id = p.departmentID
-	inner join location l
-	on l.id = d.locationID
+	$stmt = $conn->prepare('select l.name as locationname,l.id as locationid from location l
 	
-    where p.id = ' .  $_REQUEST['employmentid']);
+	where l.id =' . $_REQUEST ['locationid']);
+
     $stmt->execute();
     
 

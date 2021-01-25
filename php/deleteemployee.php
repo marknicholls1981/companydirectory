@@ -30,12 +30,12 @@
 
 	}	
 
-	$employeeID = $_REQUEST['employeeID'];
+	$employmentid = $_REQUEST['employmentid'];
 
 
     
 	$query = "delete from personnel
-	where id = $employeeID ";
+	where id = $employmentid";
 	echo $query;
     
    

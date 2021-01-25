@@ -30,7 +30,9 @@
 
 	}	
 
-	$query = 'SELECT id, name, locationID FROM department';
+	$query = 'SELECT d.id as departmentid, d.name as departmentname, l.name as locationname, l.id as locationid FROM department d
+	inner join location l
+	on d.locationID = l.id';
 
 	$result = $conn->query($query);
 	

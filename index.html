@@ -1,391 +1,517 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Directory</title>
-    <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css" />
-    <link rel="stylesheet" href="./css/style.css" />
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=PT+Serif&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
-<link rel="shortcut icon" type="image/png" href="images/anvil.png">
-</head>
-<body>
-
-
-  <header>
-
-
-
-
-
-
-    <nav class="navbar navbar-expand-xl navbar-light acmenav fixed-top">
-      <div class="container-fluid">
-        <h2>ACME CORPORATION</h2>
-        
-
-      <button
-        class="navbar-toggler"
-        data-toggle="collapse"
-        data-target="#navbarMenu"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div id="navbarMenu" class="collapse navbar-collapse">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-             
-            
-            <button class="btn btn-secondary mr-3" data-toggle="modal" data-target="#addlocation">Add Location</button>
-            <button class="btn btn-secondary mr-3" data-toggle="modal" data-target="#removelocation">Remove Location</button>
-            <button class="btn btn-secondary mr-3" data-toggle="modal" data-target="#adddepartment">Add Department</button>
-            <button class="btn btn-secondary mr-3" data-toggle="modal" data-target="#removedepartment">Remove Department</button>
-            
-<button type="button" class="btn btn-secondary mr-3" data-toggle="modal" data-target="#addemployee">
- Add Employee
-</button>
-
-
-
-          </li>
-
-
-          <li class="nav-item">
-             
-            <form class="queryform">
-              <input type="text" placeholder="Enter employee name, department or location" id="query" size="44" required>
-              
-            </form>
-          </li>
-         
-         
-        </ul>
-      </div>
-
-
-      </div>
-     
-
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Company Directory</title>
+      <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css" />
       
-    </nav>
-
-   
-    
-  </header>
-
-
-
-
-<div class="container-fluid" id="main">
- 
-    
-    <div class="table-responsive xl">
-      <table class="table table-striped table-hover table-sm">
-        <thead class="thead-dark"><tr><th>Name</th><th>Department</th><th>Job Title</th><th>Location</th><th>Email</th><th>Actions</th></tr></thead>
-        <tbody class="employees"></tbody>
-      </table>
-
-
-  </div>
-</div>   
-
-
-<!-- Add Location Modal -->
-
-<div class="modal" tabindex="-1" id="addlocation">
-  <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h4 class="modal-title">Add Location</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <form method="POST" id ="addlocationform">
-          <div class="modal-body">
-            
-              <div class="mb-3">
-                <label for="InputLocationName" class="form-label">Name of new location</label>
-                <input type="text" class="form-control" id="InputLocationName" name="location" placeholder="Enter Location Name" required>
-                
-              </div>            
-             
-      
-          
-          </div>
-          <div class="modal-footer">
-              <button id="locationAdded" type="submit" name="addLocation" class="btn btn-primary">Add Location</button>
-              <button type="button" data-dismiss="modal" class="btn btn-danger">Discard Changes</button>
-          </div>
-        </form>
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap" rel="stylesheet">
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=PT+Serif&display=swap" rel="stylesheet">
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
+      <link rel="shortcut icon" type="image/png" href="images/anvil.png">
+   </head>
+   <body>
+      <div class="container-fluid p-2">
+         <header>
+            <h1 class="text-center display-4">ACME CORPORATION</h1>
+         </header>
       </div>
-  </div>
-</div>
+      <nav>
+        <div class="nav nav-tabs nav-justified m-2" id="nav-tab" role="tablist">
+          <a class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Employees</a>
+          <a class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Departments</a>
+          <a class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Locations</a>
+        </div>
+      </nav>
 
-<!-- Add department Modal -->
 
-
-<div class="modal" tabindex="-1" id="adddepartment">
-  <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h4 class="modal-title">Add Department</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <form method="POST" id ="adddepartmentform">
-          <div class="modal-body">
-            
-              <div class="mb-3">
-                <label for="InputDepartmentName" class="form-label">Name of new department</label>
-                <input type="text" class="form-control" id="InputDepartmentName" name="location" placeholder="Enter Department Name" required>
-                
-              </div>
-              <select id="location" class="form-select form-select-lg mb-3" name="location" required>
-                <option selected disabled value="">Select a location</option>
-               
-              </select>
-
-             
+      <div class="tab-content" id="nav-tabContent">
+        <!-- Employees tab -->
       
-          
-          </div>
-          <div class="modal-footer">
-              <button id="locationAdded" type="submit" name="addLocation" class="btn btn-primary">Add Department</button>
-              <button type="button" data-dismiss="modal" class="btn btn-danger">Discard Changes</button>
-          </div>
-        </form>
-      </div>
-  </div>
-</div>
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+          <form class="queryform mx-auto" style="width: 500px; margin: auto;">
+                    
+                    <input type="text" placeholder="Search by employee name, department or location" id="employeequery" size="44" required class="form-control">
+                    
+                  </form>
 
+                  <div class="d-flex justify-content-center mt-2">
 
-<!-- Remove Department Modal -->
+                    <button type="button" class="btn btn-primary addemployee" data-toggle="modal" data-target="#addemployee">
+                      Add Employee
+                     </button>
+                    
+                    
+                  </div>
 
-<div class="modal" tabindex="-1" id="removedepartment">
-  <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h4 class="modal-title">Remove Department</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <form method="POST" id ="removedepartmentform">
-          <div class="modal-body">
-            
-              
-              <select id="departmenttodelete" class="form-select form-select-lg mb-3" name="departmenttodelete" required>
-                <option selected disabled value="">Select a department</option>
-               
-              </select>
-
-             
-      
-          
-          </div>
-          <div class="modal-footer">
-              <button id="departmentdeleted" type="submit" name="removeLocation" class="btn btn-primary">Remove Department</button>
-              <button type="button" data-dismiss="modal" class="btn btn-danger">Discard Changes</button>
-          </div>
-        </form>
-      </div>
-  </div>
-</div>
-
-
-<!-- Remove Location Modal -->
-
-<div class="modal" tabindex="-1" id="removelocation">
-  <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h4 class="modal-title">Remove Location</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <form method="POST" id ="removelocationform">
-          <div class="modal-body">
-            
-              
-              <select id="locationtodelete" class="form-select form-select-lg mb-3" name="locationttodelete" required>
-                <option selected disabled value="">Select a location</option>
-               
-              </select>
-
-             
-      
-          
-          </div>
-          <div class="modal-footer">
-              <button id="departmentdeleted" type="submit" name="removeLocation" class="btn btn-primary">Remove Location</button>
-              <button type="button" data-dismiss="modal" class="btn btn-danger">Discard Changes</button>
-          </div>
-        </form>
-      </div>
-  </div>
-</div>
-
-
-
-
-<!-- Add Employee Modal -->
-<div class="modal" tabindex="-1" id="addemployee">
-  <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h4 class="modal-title">Add Employee</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <form method="POST" id ="addemployeeform">
-          <div class="modal-body">
-            
-              <div class="mb-3">
-                <label for="InputFirstName" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="InputFirstName" name="firstName" placeholder="Enter First Name" required>
-                
-              </div>
-              <div class="mb-3">
-                <label for="InputLastName" class="form-label">Last Name</label>
-                <input type="text" class="form-control" id="InputLastName" name="lastName" placeholder="Enter Last Name" required>
-              </div>
-              <div class="mb-3">
-                <label for="InputJobTitle" class="form-label">Job Title</label>
-                <input type="text" class="form-control" id="InputJobTitle" name="jobTitle" placeholder="Enter Job Title">
-              </div>
-              <div class="mb-3">
-                <label for="InputEmail" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="InputEmail" name="email" placeholder="Enter e-mail address">
-              </div>
-              <div class="mb-3">
-                
-                <select id="departments" class="form-select form-select-lg mb-3" name="department" required>
-                  <option selected disabled value="">Select a department</option>
                  
-                </select>
-               
-              </div>
-             
-             
-             
-            
-          
-          </div>
-          <div class="modal-footer">
-              <button id="employeeAdded" type="submit" name="insertEmployee" class="btn btn-primary">Add Employee</button>
-              <button type="button" data-dismiss="modal" class="btn btn-danger">Discard Changes</button>
-          </div>
-        </form>
-      </div>
-  </div>
-</div>
-
-
-<!-- Edit Employee Modal -->
-<div class="modal" tabindex="-1" id="editmodal">
-  <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h4 class="modal-title">Edit Employee</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <form method="POST" id ="editemployeeform">
-          <div class="modal-body">
-            
-              <div class="mb-3">
-                <label for="edittFirstName" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="editFirstName" name="editfirstName" placeholder="Enter First Name" required>
-                
-              </div>
-              <div class="mb-3">
-                <label for="editLastName" class="form-label">Last Name</label>
-                <input type="text" class="form-control" id="editLastName" name="editlastName" placeholder="Enter Last Name" required>
-              </div>
-              <div class="mb-3">
-                <label for="edittJobTitle" class="form-label">Job Title</label>
-                <input type="text" class="form-control" id="editJobTitle" name="editjobTitle" placeholder="Enter Job Title">
-              </div>
-              <div class="mb-3">
-                <label for="editEmail" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="editEmail" name="editemail" placeholder="Enter e-mail address">
-              </div>
-              <div class="mb-3">
-                
-                <select id="editdepartments" class="form-select form-select-lg mb-3" name="editdepartment" required>
                   
+                    
+           
                  
-                </select>
-               
+
+                 
+
+ <div class="row justify-content-center mt-2">
+                <div class="col-auto">
+                  <table class="table table-responsive table-striped table-hover">
+                    <thead class="thead-dark"><tr><th>Name</th><th>Department</th><th>Job Title</th><th>Location</th><th>Email</th><th>Actions</th></tr></thead>
+                  <tbody class="employees-table"></tbody>
+                  </table>
+                </div>
               </div>
-             
-             
-             
+
+
+          </div>
+
+
+
+        <!-- Departments tab -->
+        
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+          <form class="queryform mx-auto" style="width: 500px; margin: auto;">
+                    
+            <input type="text" placeholder="Search by department name" id="departmentquery" size="44" required class="form-control">
             
-          
-          </div>
-          <div class="modal-footer">
-              <button id="employeeEdited" type="submit" name="edittedEmployee" class="btn btn-primary">Save Changes</button>
-              <button type="button" data-dismiss="modal" class="btn btn-danger">Discard Changes</button>
-          </div>
-        </form>
-      </div>
-  </div>
-</div>
+          </form>
+          <div class="d-flex justify-content-center mt-2">
 
+            <button type="button" class="btn btn-primary adddepartment" data-toggle="modal" data-target="#adddepartmentmodal">
+              Add Department
+             </button>
+            
+            
+          </div>
+         
 
-<!-- Delete Employee Modal -->
-<div class="modal" tabindex="-1" id="deletemodal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">Delete Employee</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
+<div class="row justify-content-center mt-2">
+        <div class="col-auto">
+          <table class="table table-responsive table-striped table-hover">
+            <thead class="thead-dark"><tr><th>Department</th><th>Location</th><th>Actions</th></tr></thead>
+          <tbody class="departments-table">
+
+          </tbody>
+          </table>
         </div>
-        <form method="POST" id ="deleteemployeeform">
-        <div class="modal-body" id="employeetodelete">        
+      </div>
+
+          
+
+
+
+
+        
+        
         </div>
       
-        <div class="modal-footer">
-            <button id="employeeDeleted" type="submit" name="deletedEmployee" class="btn btn-danger">Delete Employee</button>
-            <button type="button" data-dismiss="modal" class="btn btn-primary">Discard Changes</button>
+       <!-- Locations tab -->
+
+
+        
+        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+          <form class="queryform mx-auto" style="width: 500px; margin: auto;">
+                    
+            <input type="text" placeholder="Search by location name" id="locationquery" size="44" required class="form-control">
+            
+          </form>
+          <div class="d-flex justify-content-center mt-2">
+
+            <button type="button" class="btn btn-primary addlocation" data-toggle="modal" data-target="#addlocationmodal">
+              Add Location
+            </button>
+          
+      </div>
+      <div class="row justify-content-center mt-2">
+        <div class="col-auto">
+          <table class="table table-responsive table-striped table-hover">
+            <thead class="thead-dark"><tr><th>Location</th><th>Actions</th></tr></thead>
+          <tbody class="locations-table">
+
+          </tbody>
+          </table>
         </div>
-      </form>
-     
-    </div>
-</div>
+      </div>
 
-</div>
+        </div>
 
 
 
 
+      <!-- add employee modal -->
+
+      <div class="modal" tabindex="-1" id="addemployee">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Add Employee</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <form method="POST" id ="addemployeeform">
+              <div class="modal-body">
+                
+                  <div class="mb-3">
+                    <label for="addemployeefirstname" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="addemployeefirstname" name="addemployeefirstname" placeholder="Enter First Name" required>
+                    
+                  </div>
+                  <div class="mb-3">
+                    <label for="addemployeelastname" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="addemployeelastname" name="addemployeelastname" placeholder="Enter Last Name" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="addemployeejobtitle" class="form-label">Job Title</label>
+                    <input type="text" class="form-control" id="addemployeejobtitle" name="addemployeejobtitle" placeholder="Enter Job Title">
+                  </div>
+                  <div class="mb-3">
+                    <label for="addemployeeemail" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="addemployeeemail" name="addemployeeemail" placeholder="Enter e-mail address">
+                  </div>
+                  <div class="mb-3">
+                    
+                    <select id="addemployeedepartment" class="form-control form-select-lg mb-3" name="addemployeedepartment" required>
+                      <option selected disabled value="">Select a department</option>
+                     
+                    </select>
+                   
+                  </div>
+                 
+                
+              
+              </div>
+                <div class="modal-footer">
+                    <button id="employeeadded" type="submit" name="employeeadded" class="btn btn-primary">Add Employee</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-danger">Discard Changes</button>
+                </div>
+              </form>
+            </div>
+        </div>
+      </div>
 
 
-<div id="preloader"></div>
-  
-</body>
+      <!-- add department modal -->
+      <div class="modal" tabindex="-1" id="adddepartmentmodal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Department</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" id ="adddepartmentform">
+                <div class="modal-body">
+                  
+                    <div class="mb-3">
+                      <label for="adddepartmentname" class="form-label">Department name</label>
+                      <input type="text" class="form-control" id="adddepartmentname" name="adddepartmentname" placeholder="Enter Department name" required>
+                      
+                    </div>
+                   
+                    <div class="mb-3">
+                      
+                      <select id="departmentlocation" class="form-control form-select-lg mb-3" name="departmentlocation" required>
+                        <option selected disabled value="">Select a location</option>
+                        
+                       
+                      </select>
+                     
+                    </div>
+                   
+                   
+                   
+                  
+                
+                </div>
+                <div class="modal-footer">
+                    <button id="employeeEdited" type="submit" name="employeeEdited" class="btn btn-primary">Save Changes</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-danger">Discard Changes</button>
+                </div>
+              </form>
+            </div>
+        </div>
+      </div>
 
 
-  
+      <!-- add location modal -->
 
-  
+      <div class="modal" tabindex="-1" id="addlocationmodal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Location</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" id ="addlocationform">
+                <div class="modal-body">
+                  
+                    <div class="mb-3">
+                      <label for="addlocationname" class="form-label">Location name</label>
+                      <input type="text" class="form-control" id="addlocationname" name="addlocationname" placeholder="Enter Location name" required>
+                      
+                    </div>
+                   
+                    
+                  
+                   
+                   
+                   
+                  
+                
+                </div>
+                <div class="modal-footer">
+                    <button id="locationadded" type="submit" name="locationadded" class="btn btn-primary">Add Location</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-danger">Discard Changes</button>
+                </div>
+              </form>
+            </div>
+        </div>
+      </div>
 
-    <script src="vendors/jquery/jquery.min.js"></script>
-    <script src="vendors/bootstrap/bootstrap.min.js"></script>
-    <script src="js/script.js"></script>
+      <!-- edit department modal -->
+
+      <div class="modal" tabindex="-1" id="editdepartmentmodal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Department</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" id ="editdepartmentform">
+                <div class="modal-body">
+                  
+                    <div class="mb-3">
+                      <label for="editdepartmentname" class="form-label">Department name</label>
+                      <input type="text" class="form-control" id="editdepartmentname" name="editdepartmentname" placeholder="Enter Department name" required>
+                      
+                    </div>
+                   
+                    <div class="mb-3">
+                      
+                      <select id="editdepartmentlocation" class="form-control form-select-lg mb-3" name="editdepartmentlocation" required>
+                        <option selected disabled value="">Select a location</option>
+                        
+                       
+                      </select>
+                     
+                    </div>
+                   
+                   
+                   
+                  
+                
+                </div>
+                <div class="modal-footer">
+                    <button id="employeeEdited" type="submit" name="employeeEdited" class="btn btn-primary">Save Changes</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-danger">Discard Changes</button>
+                </div>
+              </form>
+            </div>
+        </div>
+      </div>
+
+      <!-- edit location modal -->
+
+      <div class="modal" tabindex="-1" id="editlocationmodal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Location</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" id ="editlocationform">
+                <div class="modal-body">
+                  
+                    <div class="mb-3">
+                      <label for="editlocationname" class="form-label">Location name</label>
+                      <input type="text" class="form-control" id="editlocationname" name="editlocationname" placeholder="Enter Location name" required>
+                      
+                    </div>
+                   
+                  
+                   
+                   
+                   
+                  
+                
+                </div>
+                <div class="modal-footer">
+                    <button id="locationEdited" type="submit" name="locationEdited" class="btn btn-primary">Save Changes</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-danger">Discard Changes</button>
+                </div>
+              </form>
+            </div>
+        </div>
+      </div>
+
+      <!-- delete department modal -->
+
+
+      <div class="modal" tabindex="-1" id="deletedepartmentmodal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h4 class="modal-title">Delete Department</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <form method="POST" id ="deletedepartmentform">
+              <div class="modal-body" id="departmenttodelete">        
+              </div>
+            
+              <div class="modal-footer">
+                  <button id="departmentdeleted" type="submit" name="departmentdeleted" class="btn btn-danger">Delete Department</button>
+                  <button type="button" data-dismiss="modal" class="btn btn-primary">Discard Changes</button>
+              </div>
+            </form>
+           
+          </div>
+      </div>
+      
+      </div>
+
+      <!-- delete location modal -->
+
+      
+      <div class="modal" tabindex="-1" id="deletelocationmodal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h4 class="modal-title">Delete Location</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <form method="POST" id ="deletelocationform">
+              <div class="modal-body" id="locationtodelete">        
+              </div>
+            
+              <div class="modal-footer">
+                  <button id="locationdeleted" type="submit" name="locationdeleted" class="btn btn-danger">Delete Location</button>
+                  <button type="button" data-dismiss="modal" class="btn btn-primary">Discard Changes</button>
+              </div>
+            </form>
+           
+          </div>
+      </div>
+      
+      </div>
+
     
-</body>
+      
+
+      <!-- edit employee modal -->
+      <div class="modal" tabindex="-1" id="editemployeemodal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Employee</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" id ="editemployeeform">
+                <div class="modal-body">
+                  
+                    <div class="mb-3">
+                      <label for="edittFirstName" class="form-label">First Name</label>
+                      <input type="text" class="form-control" id="editFirstName" name="editFirstName" placeholder="Enter First Name" required>
+                      
+                    </div>
+                    <div class="mb-3">
+                      <label for="editLastName" class="form-label">Last Name</label>
+                      <input type="text" class="form-control" id="editLastName" name="editLastName" placeholder="Enter Last Name" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="edittJobTitle" class="form-label">Job Title</label>
+                      <input type="text" class="form-control" id="editJobTitle" name="editJobTitle" placeholder="Enter Job Title">
+                    </div>
+                    <div class="mb-3">
+                      <label for="editEmail" class="form-label">Email address</label>
+                      <input type="email" class="form-control" id="editEmail" name="editEmail" placeholder="Enter e-mail address">
+                    </div>
+                    <div class="mb-3">
+                      
+                      <select id="editemployeedepartment" class="form-control form-select-lg mb-3" name="editemployeedepartment" required>
+                        
+                       
+                      </select>
+                     
+                    </div>
+                   
+                   
+                   
+                  
+                
+                </div>
+                <div class="modal-footer">
+                    <button id="employeeEdited" type="submit" name="employeeEdited" class="btn btn-primary">Save Changes</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-danger">Discard Changes</button>
+                </div>
+              </form>
+            </div>
+        </div>
+      </div>
+      
+
+
+
+
+      <!-- delete employee modal -->
+
+
+      <div class="modal" tabindex="-1" id="deleteemployeemodal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h4 class="modal-title">Delete Employee</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <form method="POST" id ="deleteemployeeform">
+              <div class="modal-body" id="employeetodelete">        
+              </div>
+            
+              <div class="modal-footer">
+                  <button id="employeedeleted" type="submit" name="employeedeleted" class="btn btn-danger">Delete Employee</button>
+                  <button type="button" data-dismiss="modal" class="btn btn-primary">Discard Changes</button>
+              </div>
+            </form>
+           
+          </div>
+      </div>
+      
+      </div>
+      
+      
+    
+      
+      <!-- delete location modal -->
+
+      
+      
+ 
+     
+      <div id="preloader"></div>
+   </body>
+   <script src="vendors/jquery/jquery.min.js"></script>
+   <script src="vendors/bootstrap/bootstrap.min.js"></script>
+   <script src="bootbox.min.js"></script>
+   
+   
+   <script src="js/app.js"></script>
 </html>

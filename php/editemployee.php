@@ -30,18 +30,18 @@
 
 	}	
 
-	$firstName = $_REQUEST['firstName'];
-	$lastName = $_REQUEST['lastName'];
-	$jobTitle = $_REQUEST['jobTitle'];
+	$firstname = $_REQUEST['firstname'];
+	$lastname = $_REQUEST['lastname'];
+	$jobtitle = $_REQUEST['jobtitle'];
 	$email = $_REQUEST['email'];
-	$departmentID = $_REQUEST['departmentID'];
-	$employeeID = $_REQUEST['employeeID'];
+	$departmentid = $_REQUEST['departmentid'];
+	$employmentid = $_REQUEST['employmentid'];
 
 
 
 	$query = "update personnel p
-	set firstName = '$firstName', lastName = '$lastName', jobTitle = '$jobTitle', email = '$email', departmentID = '$departmentID'
-	where p.id = '$employeeID' ";
+	set firstName = '$firstname', lastName = '$lastname', jobTitle = '$jobtitle', email = '$email', departmentID = '$departmentid'
+	where p.id = '$employmentid' ";
 
 	echo $query;
 

@@ -30,10 +30,10 @@
 
 	}	
 
-   $locationID = $_REQUEST['locationID'];
+   $locationid = $_REQUEST['locationid'];
     
 
-	$query = "SELECT COUNT(*) AS total_in_use FROM department WHERE locationID = '$locationID'";
+	$query = "SELECT COUNT(*) AS total_in_use FROM department WHERE locationID = '$locationid'";
 
 	$result = $conn->query($query);
 	

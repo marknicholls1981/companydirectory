@@ -33,7 +33,7 @@
 
 	
 
-	$stmt = $conn->prepare('select p.firstName, p.lastName, p.email,d.name as departmentname, l.name, p.id, p.jobTitle, d.id as departmentID from personnel p 
+	$stmt = $conn->prepare('select p.firstName, p.lastName, p.email,d.name as departmentname, l.name as locationname, p.id as employmentid, p.jobTitle, d.id as departmentID from personnel p 
 	inner join department d
     on d.id = p.departmentID
     inner join location l

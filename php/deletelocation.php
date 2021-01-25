@@ -30,12 +30,12 @@
 
 	}	
 
-	$locationID = $_REQUEST['locationID'];
+	$locationid = $_REQUEST['locationid'];
 
 
     
 	$query = "delete from location
-	where id = '$locationID' ";
+	where id = '$locationid' ";
 	echo $query;
     
    

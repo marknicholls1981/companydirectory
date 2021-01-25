@@ -7,7 +7,7 @@
 
 	$executionStartTime = microtime(true);
 
-	// include("config.php");
+	//include("config.php");
 	include("config_dev.php");
 
 	header('Content-Type: application/json; charset=UTF-8');
@@ -31,27 +31,29 @@
 	}	
 
 	
-    $employmentid = $_REQUEST['employmentid'];
-
-	$stmt = $conn->prepare('select p.firstName, p.lastName, p.email,d.name as departmentname, l.name, p.jobTitle, d.id as departmentID,p.id from personnel p 
-	inner join department d
-	on d.id = p.departmentID
-	inner join location l
-	on l.id = d.locationID
-	
-    where p.id = ' .  $_REQUEST['employmentid']);
-    $stmt->execute();
     
+    $locationid = $_REQUEST['locationid'];
+    $locationname = $_REQUEST['locationname'];
 
-	$result = $stmt->get_result();
-	
+
+
+	$query = "update location l
+	set name = '$locationname'
+	where l.id = '$locationid' ";
+
+	echo $query;
+
+
+    
+   
+	$result = $conn->query($query);
+
 	if (!$result) {
 
 		$output['status']['code'] = "400";
 		$output['status']['name'] = "executed";
 		$output['status']['description'] = "query failed";	
 		$output['data'] = [];
-		
 
 		mysqli_close($conn);
 
@@ -60,23 +62,6 @@
 		exit;
 
 	}
-   
-   	$data = [];
 
-	while ($row = mysqli_fetch_assoc($result)) {
-
-		array_push($data, $row);
-
-	}
-
-	$output['status']['code'] = "200";
-	$output['status']['name'] = "ok";
-	$output['status']['description'] = "success";
-	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data'] = $data;
-	
-	mysqli_close($conn);
-
-	echo json_encode($output); 
 
 ?>

@@ -30,10 +30,10 @@
 
 	}	
 
-    $departmentID = $_REQUEST['departmentID'];
+    $departmentid = $_REQUEST['departmentid'];
     
 
-	$query = "SELECT COUNT(*) AS total_in_use FROM personnel WHERE departmentID = '$departmentID'";
+	$query = "SELECT COUNT(*) AS total_in_use FROM personnel WHERE departmentID = '$departmentid'";
 
 	$result = $conn->query($query);
 	

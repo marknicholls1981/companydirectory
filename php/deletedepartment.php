@@ -30,12 +30,12 @@
 
 	}	
 
-	$departmentID = $_REQUEST['departmentID'];
+	$departmentid = $_REQUEST['departmentid'];
 
 
     
 	$query = "delete from department
-	where id = '$departmentID' ";
+	where id = '$departmentid' ";
 	echo $query;
     
    
