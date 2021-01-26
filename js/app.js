@@ -212,7 +212,7 @@ $('#employeequery').keyup( function (e) {
           jobTitle = detail['jobTitle']
           departmentid = detail['departmentID']
          
-          $('.employees-table').append(`<tr data-value=${employmentid}><td>${firstname} ${lastname}</td><td>${department}</td><td>${jobTitle}</td><td>${locationname}</td><td><a href="mailto:">${email}</a></td><td class="text-right"><button type="button" class="btn btn-primary badge-pill m-1 editemployee">Edit</button><button type="button" class="btn btn-danger badge-pill deleteemployee">Delete</button></td></tr>`
+          $('.employees-table').append(`<tr data-value=${employmentid}><td>${firstname} ${lastname}</td><td class="d-none d-sm-table-cell">${department}</td><td class="d-none d-sm-table-cell">${jobTitle}</td><td class="d-none d-sm-table-cell">${locationname}</td><td class="d-none d-sm-table-cell"><a href="mailto:">${email}</a></td><td class="text-right"><button type="button" class="btn btn-primary badge-pill m-1 editemployee">Edit</button><button type="button" class="btn btn-danger badge-pill deleteemployee">Delete</button></td></tr>`
          )  
         });
         $('.editemployee').on('click', function() {
