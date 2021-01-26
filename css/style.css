@@ -1,21 +1,6 @@
-body {
-  background-color: #e4f5ed;
-}
-
-#main {
-  padding-top: 60px;
-  color: #346650;
-  height: calc(100vh - 62px);
-}
-
-.acmenav {
-  background-color: #346650;
-  color: #e4f5ed;
-  font-family: "PT Serif", serif;
-}
-* {
-  font-family: "PT Serif", serif;
-}
-h2 {
-  text-shadow: 2px 2px black;
+th {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
