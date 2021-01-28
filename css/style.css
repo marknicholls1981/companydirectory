@@ -1,5 +1,8 @@
 th {
   position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -o-sticky;
+  position: -ms-sticky;
   position: sticky;
   top: 0;
   z-index: 2;
